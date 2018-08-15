@@ -1,0 +1,26 @@
+prefix="/usr/lib/node_modules/puppeteer/.local-chromium"
+HERE=${prefix}/$(ls "$prefix" | head -n1)/chrome-linux
+
+# Generate a desktop file that will run this script.
+generate_desktop_file() {
+    apps="/usr/share/applications"
+    mkdir -p "$apps"
+    cat > "$apps/chromium.desktop" << EOF
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Chromium
+Comment=Installed via Puppeteer $1
+Exec=$HERE/chrome-wrapper %U
+Terminal=false
+Icon=$HERE/product_logo_48.png
+Type=Application
+Categories=Application;Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml_xml;
+EOF
+}
+
+post_install () {
+  generate_desktop_file "$1"
+}
+
