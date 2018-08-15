@@ -47,9 +47,15 @@ optdepends=()
 provides=()
 conflicts=()
 replaces=()
-source=('puppeteer-test')
+source=(
+  'puppeteer-test'
+  '00-local-userns.conf'
+)
 
-sha256sums=('24c7c8b2f33e537b9f3cf38f215592e2336f494ba0f64ebc644ed666807553cf')
+sha256sums=(
+  '24c7c8b2f33e537b9f3cf38f215592e2336f494ba0f64ebc644ed666807553cf'
+  'd0d790d4c3d887b10b2b155b83a58a44980b9fa638f8c0f1faec0739dc0ef473'
+)
 
 pkgver () {
   npm view puppeteer@latest version
@@ -57,9 +63,14 @@ pkgver () {
 
 package () {
   install -Dm 755 -t "${pkgdir}/usr/bin" puppeteer-test
+  install -Dm 655 -t "${pkgdir}/etc/sysctl.d" 00-local-userns.conf
   source "$HOME/.nvm/nvm.sh"
   nvm use 10.8.0
   local _npmdir="${pkgdir}/usr/lib/node_modules/"
   mkdir -p $_npmdir
   npm install -g --prefix "${pkgdir}/usr" puppeteer@${pkgver}
+
+  # allow puppeteer to be required globally
+  install -Dm 755 -d "${pkgdir}/usr/lib/node"
+  ln -s /usr/lib/node_modules/puppeteer "${pkgdir}/usr/lib/node"
 }
