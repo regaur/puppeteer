@@ -3,7 +3,25 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-  const browser = await puppeteer.launch({headless: false});
+  const args=[
+    '--no-default-browser-check',
+    '--kiosk',
+    '--noerrdialogs',
+    '--start-fullscreen',
+    '--disable-infobars',
+    '--disable-session-crashed-bubble'
+    //'--default-background-color', '000000ff'
+  ]
+  const browser = await puppeteer.launch({
+	  args, 
+	  headless: false,
+	  ignoreDefaultArgs: ['--mute-audio'],
+	  defaultViewport: {
+      width: 1920,
+      height: 1080,
+      hasTouch: true
+    }
+  });
   const page = await browser.newPage();
   await page.goto('https://nullprogram.com/webgl-particles/');
 
