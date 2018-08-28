@@ -5,13 +5,18 @@ const puppeteer = require('puppeteer');
 (async () => {
   const args=[
     '--no-default-browser-check',
+    '--no-first-run',
+    '--autoplay-policy=no-user-gesture-required',
     '--kiosk',
     '--noerrdialogs',
     '--start-fullscreen',
     '--disable-infobars',
-    '--disable-session-crashed-bubble'
-    //'--default-background-color', '000000ff'
+    '--disable-session-crashed-bubble',
+    '--password-store=basic'
+    // '--default-background-color', '000000ff'
+    // '--auto-open-devtools-for-tabs'
   ]
+
   const browser = await puppeteer.launch({
 	  args, 
 	  headless: false,
@@ -23,10 +28,15 @@ const puppeteer = require('puppeteer');
     }
   });
   const page = await browser.newPage();
+  await page.evaluate( ()=> {
+    document.body.style.background='#000000'
+    document.body.style.height='1080px'
+  })
+
   await page.goto('https://nullprogram.com/webgl-particles/');
 
   setTimeout( (async ()=>{
     await browser.close();
-  }), 10000)
+  }), 20000)
 
 })();

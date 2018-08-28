@@ -1,7 +1,7 @@
 # Maintainer: Jan Boelsche <jan@lagomorph.de>
 pkgname=puppeteer
 pkgver=1.7.0
-pkgrel=4
+pkgrel=5
 pkgdesc="Remote control Chromium Browser from NodeJS via its debug API"
 arch=('x86_64')
 url=""
@@ -54,7 +54,7 @@ source=(
   '00-local-userns.conf'
 )
 
-sha256sums=('a309758ae096e920b028be7c8efc2e992bb5c87e056b575a94103966602f279a'
+sha256sums=('53e8d624d070416d9d3a0d8aaa50b5c310f4f524a19b4e8a8de0f211f9f286ca'
             'd0d790d4c3d887b10b2b155b83a58a44980b9fa638f8c0f1faec0739dc0ef473')
 
 pkgver () {
