@@ -13,11 +13,12 @@ const puppeteer = require('puppeteer');
     '--disable-infobars',
     '--disable-session-crashed-bubble',
     '--password-store=basic'
-    // '--default-background-color', '000000ff'
+    // '--default-background-color=00000000'
     // '--auto-open-devtools-for-tabs'
   ]
 
   const browser = await puppeteer.launch({
+	  timeout: 90000,
 	  args, 
 	  headless: false,
 	  ignoreDefaultArgs: ['--mute-audio'],
@@ -28,12 +29,11 @@ const puppeteer = require('puppeteer');
     }
   });
   const page = await browser.newPage();
-  await page.evaluate( ()=> {
-    document.body.style.background='#000000'
-    document.body.style.height='1080px'
-  })
+  await page.setContent('<body style="background: black;"></body>')
 
-  await page.goto('https://nullprogram.com/webgl-particles/');
+  await page.goto('https://nullprogram.com/webgl-particles/', {
+    timeout: 90000
+  });
 
   setTimeout( (async ()=>{
     await browser.close();
